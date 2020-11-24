@@ -1,6 +1,6 @@
 # FIF (File in File)
 
-FIF is a command line tool for embed any file into image, audio and video files and decode back.
+FIF is a command line tool for embedding any file into image, audio and video files and decoding back.
 
 ## installation
 
