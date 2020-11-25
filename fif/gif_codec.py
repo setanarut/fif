@@ -1,90 +1,87 @@
 from PIL import Image
 import filetype
 import os
-from datetime import datetime
+import sys
+from fif.tools import *
 
 
-def encode(filename, gifsize=(200,200), verbose=False):
-    output_filename = os.path.splitext(filename)[0] + ".gif"
+def encode(filename, gifsize=(200, 200), verbose=False):
     if os.path.getsize(filename) == 0:
         print("Error! file is empty --> ", filename)
         sys.exit()
-    try:    
+    try:
         with open(filename, 'rb') as f:
             data = f.read()
     except IOError as e:
         print(e)
         sys.exit()
-    WIDTH = gifsize[0]
-    HEIGHT = gifsize[1]
-    CHUNK_SIZE = int((WIDTH * HEIGHT))
-    input_bytes_lenght = len(data)
+
+    output_filename = change_ext(filename, "gif")
+    width = gifsize[0]
+    height = gifsize[1]
+    chunk_size = int((width * height))
+    INPUT_BYTES_LENGHT = len(data)
     chunks = []
     offset = 0
     frames = []
     extra_bytes_lenght = 0
-    while offset < input_bytes_lenght:
-        chunks.append(data[offset:offset+CHUNK_SIZE])
-        offset += CHUNK_SIZE
+    while offset < INPUT_BYTES_LENGHT:
+        chunks.append(data[offset:offset + chunk_size])
+        offset += chunk_size
     for frame_num, chunk in enumerate(chunks):
-        padded_chunk = chunk + (b'\0' * (CHUNK_SIZE - len(chunk)))
-        # print(frame_num + 1, (WIDTH, HEIGHT), len(padded_chunk))
-        extra_bytes_lenght = (CHUNK_SIZE - len(chunk))
-        im = Image.frombytes('L', (WIDTH, HEIGHT), padded_chunk)
-        im = im.convert(mode="L")
-        frames.append(im)
-    if verbose:
-        print(input_bytes_lenght, "Input file bytes")
-        print(extra_bytes_lenght, "Extra bytes added (to fill the last frame)")
-        print("Gif size:", str(WIDTH) + "x" + str(HEIGHT))
-    
-    
+        padded_chunk = chunk + (b'\0' * (chunk_size - len(chunk)))
+        extra_bytes_lenght = (chunk_size - len(chunk))
+        frames.append(Image.frombytes('L', (width, height), padded_chunk))
+
     if os.path.isfile(output_filename):
+        output_filename = get_unique_filename(output_filename)
         if verbose:
-            print(f"File exist!: {output_filename}")
-        curr_time = datetime.now()
-        formatted_time = curr_time.strftime('%Y%m%d%H%M%S%f')
-        output_filename = os.path.splitext(filename)[0] + "_" + formatted_time + ".gif"
-        if verbose:
-            print(f"Renamed without overwrite: {output_filename}")
-    # write gif - comment kısmına ekstra bayt miktarı eklenecek
-    frames[0].save(output_filename, comment=filename, save_all=True, append_images=frames[1:], duration=100, loop=0)
+            print(
+                f"file has been renamed to: '{output_filename}'")
+    print("file -> ", output_filename)
+
+    required_info = str(os.path.basename(filename)) + \
+        ":" + str(extra_bytes_lenght)
+
+    # write
+    frames[0].save(output_filename, comment=required_info, save_all=True,
+                   append_images=frames[1:], duration=100, loop=0)
+
     if verbose:
-        print("Saved file -->:", output_filename)
+        print(INPUT_BYTES_LENGHT, "Input file bytes")
+        print("Gif size:", str(width) + "x" + str(height))
+        print(
+            "Filename and extra byte length has been embedded in gif comment -> ",
+            required_info)
+        print("DONE")
+    sys.exit()
+
 
 def decode(filename, verbose=False):
-    output_filename = ""
     gif = Image.open(filename)
-    filename_from_comment = str(gif.info.get("comment"),"utf-8")
-    filename_ext_from_comment = os.path.splitext(filename_from_comment)[1]
-    # print(filename_ext_from_comment)
+    dir_name = os.path.dirname(filename)
+    required_info = str(gif.info.get("comment"), "utf-8").split(":")
+    output_filename = os.path.join(dir_name, required_info[0])
+    extra_bytes_lenght = int(required_info[1])
     hidden_data = bytearray()  # New empty byte array
     for frame in range(0, gif.n_frames):
         gif.seek(frame)
-        hidden_data.extend(gif.tobytes()) # Append gif frames to the hidden_data
-    # kind = filetype.guess(hidden_data)
-    # if kind is None:
-    #     print(f'Cannot guess embedded file type in {filename}!')
-    #     return
-    # # is output filename exist?
-    # if os.path.isfile(os.path.splitext(filename)[0] + "." + filename_ext_from_comment):
-    if os.path.isfile(filename_from_comment):
-        curr_time = datetime.now()
-        formatted_time = curr_time.strftime('%Y%m%d%H%M%S%f')
-        # output_filename = os.path.splitext(filename)[0] + "_" + formatted_time + "." + filename_ext_from_comment
-        output_filename = os.path.splitext(filename_from_comment)[0] + "_" + formatted_time + filename_ext_from_comment
+        # Append gif frames to the hidden_data
+        hidden_data.extend(gif.tobytes())
+
+    hidden_data = hidden_data[:-extra_bytes_lenght]
+
+    if os.path.isfile(output_filename):
+        output_filename = get_unique_filename(output_filename)
         if verbose:
-            print(f"File exist!: '{filename}' renamed to '{output_filename}'")
-    else:
-        output_filename = filename_from_comment
-    try:    
-        with open(output_filename,"wb") as file:
+            print(
+                f"There is a file with this name, the file has been renamed to {output_filename}")
+    if verbose:
+        print(f"'{output_filename}' extracted from '{filename}'")
+        print(f"Saved file ----> {output_filename}")
+    try:
+        with open(output_filename, "wb") as file:
             file.write(hidden_data)
     except IOError as e:
         print(e)
         sys.exit()
-    if verbose:
-
-        print(f"'{filename_from_comment}' extracted from '{filename}'")
-        # print(f"MIME: {kind.mime}")
-        print(f"Saved file ----> {output_filename}")

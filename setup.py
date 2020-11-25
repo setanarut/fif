@@ -2,7 +2,7 @@ from setuptools import setup, find_namespace_packages
 
 setup(
     name="fif",
-    version="0.1.0.dev1",
+    version="1.0.0.dev1",
     install_requires=['Pillow>=8.0.0','filetype>=1.0.7'],
     python_requires='>=3',
     packages=find_namespace_packages(),
