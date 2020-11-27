@@ -1,14 +1,11 @@
 from PIL import Image
-import filetype
 import os
 import sys
 from fif.tools import *
 
 
 def encode(filename, gifsize=(200, 200), verbose=False):
-    if os.path.getsize(filename) == 0:
-        print("Error! file is empty --> ", filename)
-        sys.exit()
+    
     try:
         with open(filename, 'rb') as f:
             data = f.read()
@@ -68,7 +65,7 @@ def decode(filename, verbose=False):
         gif.seek(frame)
         # Append gif frames to the hidden_data
         hidden_data.extend(gif.tobytes())
-
+    #remove extra bytes
     hidden_data = hidden_data[:-extra_bytes_lenght]
 
     if os.path.isfile(output_filename):

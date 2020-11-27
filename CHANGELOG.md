@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.0.dev1] - 2020-11-25
+### Added
+-  Encoding and decoding WAV
+
 ## [1.0.0.dev1] - 2020-11-25
 ### Changed
 - The output file will be saved in the same folder as the input file.
