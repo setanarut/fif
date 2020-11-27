@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## [1.1.0.dev1] - 2020-11-25
+## [1.1.0.dev1] - 2020-11-28
 ### Added
 -  Encoding and decoding WAV
 
