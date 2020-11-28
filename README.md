@@ -10,18 +10,19 @@ Please see CHANGELOG.md for current available codecs.
 
 ## usage
 
-Song.mp3 file as grayscale GIF animation
+test.mp3 file as grayscale GIF animation
 
 ```shell
-fif --encode gif Song.mp3
-# saved file -> Song.gif
+fif --encode gif test.mp3
+# saved file -> test.gif
 ```
+![dogmalar](./test.gif)
 
-Extract Song.mp3 from GIF container
+Extract test.mp3 from GIF container
 
 ```shell
-fif Song.gif
-# saved file -> Song.mp3
+fif test.gif
+# saved file -> test.mp3
 ```
 
 ```shell
