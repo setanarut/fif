@@ -2,8 +2,6 @@
 
 FIF is a command line tool for embedding any file into GIF, PNG and WAV files and decoding back.
 
-Please see CHANGELOG.md for current available codecs.
-
 ## installation
 
 `pip3 install git+https://github.com/hazarek/fif.git`
