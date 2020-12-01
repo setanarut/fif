@@ -3,10 +3,10 @@ import argparse
 import os
 import time
 import filetype
-from fif import gif_codec, wav_codec
+from fif import gif_codec, wav_codec, png_codec
 from fif.tools import *
 
-sys.tracebacklimit = 0
+# sys.tracebacklimit = 0
 
 
 def getargs():
@@ -40,7 +40,7 @@ def run_fif():
                 print('Container MIME type: %s' % kind.mime)
             gif_codec.decode(args.input, verbose=args.verbose)
         elif kind.mime == "image/png":
-            print("png decoding coming soon!")
+            png_codec.decode(args.input, verbose=args.verbose)
         elif kind.mime == "audio/x-wav":
             wav_codec.decode(args.input, verbose=args.verbose)
         else:
@@ -48,9 +48,8 @@ def run_fif():
     if args.encode == "gif":
         gif_codec.encode(args.input, verbose=args.verbose)
     elif args.encode == "png":
-        # png_codec.encode(args.input, verbose=args.verbose)
-        print("PNG encoding is under development")
+        png_codec.encode(args.input, verbose=args.verbose)
     elif args.encode == "wav":
         wav_codec.encode(args.input, verbose=args.verbose)
-        
+
         # wav_codec.encode(args.input, verbose=args.verbose)

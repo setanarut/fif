@@ -1,5 +1,8 @@
 # Changelog
 
+### [1.2.0.rc] - 2020-12-02
+-  **Added:** Encoding and decoding PNG (L Mode)
+
 ### [1.1.0.dev1] - 2020-11-28
 
 -  **Added:** Encoding and decoding WAV
