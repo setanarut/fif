@@ -1,17 +1,12 @@
 import os
 import sys
-import re
 from fif.tools import *
-# out_file.write(input_bytes.lstrip(wavheader_bytes))
-
-# wavheader uzunluk 44
-# son 300
-
 
 
 def encode(filename, verbose=False):
     with open(filename, "rb") as f:
         data = f.read()
+    data_len = len(data)
     output_filename = change_ext(filename, "wav")
     wavheader_bytes = b'RIFF$\xa70\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00D\xac\x00\x00\x88X\x01\x00\x02\x00\x10\x00data\x00\xa70\x00'
     base_filename = ":" + os.path.basename(filename)
@@ -25,17 +20,21 @@ def encode(filename, verbose=False):
     except IOError as e:
         print(e)
         sys.exit()
+    if verbose:
+        print(f"Bytes: {data_len}")
+        print(f"Header bytes: CONSTANT = 44")
+        print(f"Metadata extra bytes: CONSTANT = 300")
+        print(f"Filename:  {output_filename}")
 
 def decode(filename, verbose=False):
     dir_name = os.path.dirname(filename)
     with open(filename, "rb") as f:
         data = f.read()
-    # output_data = output_data.lstrip(wavheader_bytes))
+    data_len = len(data)
     output_data = bytearray(data)
     output_filename = output_data[-300:].decode("utf-8").split(":")[-1]
     output_data = output_data[44:]
     output_data = output_data[:-300]
-    
     if os.path.isfile(output_filename):
         output_filename = get_unique_filename(output_filename)
     try:
@@ -44,5 +43,8 @@ def decode(filename, verbose=False):
     except IOError as e:
         print(e)
         sys.exit()
-
-
+    if verbose:
+        print(f"Bytes: {data_len}")
+        print(f"Header bytes: CONSTANT = 44")
+        print(f"Extra bytes: CONSTANT = 300")
+        print(f"Filename:  {output_filename}")

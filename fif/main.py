@@ -36,7 +36,6 @@ def run_fif():
         kind = filetype.guess(args.input)
         if kind.mime == "image/gif":
             if args.verbose:
-                print('Container file extension: %s' % kind.extension)
                 print('Container MIME type: %s' % kind.mime)
             gif_codec.decode(args.input, verbose=args.verbose)
         elif kind.mime == "image/png":
@@ -44,12 +43,10 @@ def run_fif():
         elif kind.mime == "audio/x-wav":
             wav_codec.decode(args.input, verbose=args.verbose)
         else:
-            print("Unsupported MIME")
+            print("Unsupported container MIME type!")
     if args.encode == "gif":
         gif_codec.encode(args.input, verbose=args.verbose)
     elif args.encode == "png":
         png_codec.encode(args.input, verbose=args.verbose)
     elif args.encode == "wav":
         wav_codec.encode(args.input, verbose=args.verbose)
-
-        # wav_codec.encode(args.input, verbose=args.verbose)

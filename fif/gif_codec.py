@@ -5,14 +5,13 @@ from fif.tools import *
 
 
 def encode(filename, gifsize=(200, 200), verbose=False):
-    
+
     try:
         with open(filename, 'rb') as f:
             data = f.read()
     except IOError as e:
         print(e)
         sys.exit()
-
     output_filename = change_ext(filename, "gif")
     width = gifsize[0]
     height = gifsize[1]
@@ -29,56 +28,46 @@ def encode(filename, gifsize=(200, 200), verbose=False):
         padded_chunk = chunk + (b'\0' * (chunk_size - len(chunk)))
         extra_bytes_lenght = (chunk_size - len(chunk))
         frames.append(Image.frombytes('L', (width, height), padded_chunk))
-
     if os.path.isfile(output_filename):
         output_filename = get_unique_filename(output_filename)
-        if verbose:
-            print(
-                f"file has been renamed to: '{output_filename}'")
-    print("file -> ", output_filename)
-
-    required_info = str(os.path.basename(filename)) + \
+    metadata = str(os.path.basename(filename)) + \
         ":" + str(extra_bytes_lenght)
-
     # write
-    frames[0].save(output_filename, comment=required_info, save_all=True,
+    frames[0].save(output_filename, comment=metadata, save_all=True,
                    append_images=frames[1:], duration=100, loop=0)
-
     if verbose:
-        print(INPUT_BYTES_LENGHT, "Input file bytes")
-        print("Gif size:", str(width) + "x" + str(height))
-        print(
-            "Filename and extra byte length has been embedded in gif comment -> ",
-            required_info)
-        print("DONE")
+        print(f"Input bytes: {INPUT_BYTES_LENGHT}")
+        print(f"Extra bytes:  {extra_bytes_lenght}")
+        print(f"Metadata:  {metadata}")
+        print(f"GIF size: {gifsize}")
+        print(f"Filename:  {output_filename}")
     sys.exit()
 
 
 def decode(filename, verbose=False):
     gif = Image.open(filename)
     dir_name = os.path.dirname(filename)
-    required_info = str(gif.info.get("comment"), "utf-8").split(":")
-    output_filename = os.path.join(dir_name, required_info[0])
-    extra_bytes_lenght = int(required_info[1])
+    metadata = str(gif.info.get("comment"), "utf-8").split(":")
+    output_filename = os.path.join(dir_name, metadata[0])
+    extra_bytes_lenght = int(metadata[1])
     hidden_data = bytearray()  # New empty byte array
     for frame in range(0, gif.n_frames):
         gif.seek(frame)
         # Append gif frames to the hidden_data
         hidden_data.extend(gif.tobytes())
-    #remove extra bytes
-    hidden_data = hidden_data[:-extra_bytes_lenght]
-
+    hidden_data = hidden_data[:-extra_bytes_lenght]  # remove extra bytes
+    data_len = len(hidden_data)
     if os.path.isfile(output_filename):
         output_filename = get_unique_filename(output_filename)
-        if verbose:
-            print(
-                f"There is a file with this name, the file has been renamed to {output_filename}")
-    if verbose:
-        print(f"'{output_filename}' extracted from '{filename}'")
-        print(f"Saved file ----> {output_filename}")
     try:
         with open(output_filename, "wb") as file:
             file.write(hidden_data)
     except IOError as e:
         print(e)
         sys.exit()
+    if verbose:
+        print(f"Bytes: {data_len}")
+        print(f"Extra bytes:  {extra_bytes_lenght}")
+        print(f"Metadata:  {metadata}")
+        print(f"Filename:  {output_filename}")
+    sys.exit()
