@@ -1,5 +1,11 @@
 # Changelog
 
+### [1.3.0.rc] - 2020-12-03
+-  **Added:** Encoding and decoding PNG (RGB Mode)
+-  **Added:** Images modes optional argument. `[-m --mode {1, L, P, RGB, RGBA}]`. Current available modes;
+    - png: {L, RGB} / "RGB" is the default
+    - gif: {L} / "L" is the default
+
 ### [1.2.0.rc] - 2020-12-02
 -  **Added:** Encoding and decoding PNG (L Mode)
 

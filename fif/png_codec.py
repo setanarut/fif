@@ -5,8 +5,13 @@ import sys
 from fif.tools import *
 
 
-def encode(filename, verbose=False):
-
+def encode(filename, mode="RGB", verbose=False):
+    if mode == "P":
+        print("invalid choice: 'P' for PNG (choose from '1', 'L', 'RGB', 'RGBA')")
+        sys.exit()
+    if mode not in ["RGB","L"]:
+        print(mode, "coming soon")
+        sys.exit()
     try:
         with open(filename, 'rb') as f:
             data = f.read()
@@ -15,12 +20,7 @@ def encode(filename, verbose=False):
         sys.exit()
 
     output_filename = change_ext(filename, "png")
-    INPUT_BYTES_LENGHT = len(data)
-    extra_bytes_lenght = 0
-    w = get_w(INPUT_BYTES_LENGHT)
-    output_size = (w, w)
-    OUTPUT_BYTES_LENGHT = w * w
-    extra_bytes_lenght = OUTPUT_BYTES_LENGHT - INPUT_BYTES_LENGHT
+    output_size, extra_bytes_lenght = calc_size(len(data), mode)
     data += (b'\0' * extra_bytes_lenght)
     metadata = PngInfo()
     metadata.add_text("filename", str(os.path.basename(filename)))
@@ -29,10 +29,9 @@ def encode(filename, verbose=False):
     if os.path.isfile(output_filename):
         output_filename = get_unique_filename(output_filename)
 
-    im = Image.frombytes("L", output_size, data)
+    im = Image.frombytes(mode, output_size, data)
     im.save(output_filename, pnginfo=metadata)
     if verbose:
-        print(f"Bytes: {INPUT_BYTES_LENGHT}")
         print(f"Extra bytes:  {extra_bytes_lenght}")
         print(f"Image size: {output_size}")
         print(f"Image mode: {im.mode}")

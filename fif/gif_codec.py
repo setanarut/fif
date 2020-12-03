@@ -4,8 +4,13 @@ import sys
 from fif.tools import *
 
 
-def encode(filename, gifsize=(200, 200), verbose=False):
-
+def encode(filename, mode="L", gifsize=(200, 200), verbose=False):
+    if mode not in ["1", "L", "P"]:
+        print("invalid mode choice for GIF: (choose from '1', 'L', 'P')")
+        sys.exit()
+    if mode in ["1", "P"]:
+        print("1, P modes coming soon")
+        sys.exit()
     try:
         with open(filename, 'rb') as f:
             data = f.read()
@@ -27,7 +32,7 @@ def encode(filename, gifsize=(200, 200), verbose=False):
     for frame_num, chunk in enumerate(chunks):
         padded_chunk = chunk + (b'\0' * (chunk_size - len(chunk)))
         extra_bytes_lenght = (chunk_size - len(chunk))
-        frames.append(Image.frombytes('L', (width, height), padded_chunk))
+        frames.append(Image.frombytes(mode, (width, height), padded_chunk))
     if os.path.isfile(output_filename):
         output_filename = get_unique_filename(output_filename)
     metadata = str(os.path.basename(filename)) + \
@@ -36,7 +41,7 @@ def encode(filename, gifsize=(200, 200), verbose=False):
     frames[0].save(output_filename, comment=metadata, save_all=True,
                    append_images=frames[1:], duration=100, loop=0)
     if verbose:
-        print(f"Input bytes: {INPUT_BYTES_LENGHT}")
+        print(f"Mode: {mode}")
         print(f"Extra bytes:  {extra_bytes_lenght}")
         print(f"Metadata:  {metadata}")
         print(f"GIF size: {gifsize}")

@@ -21,6 +21,17 @@ def getargs():
             "wav",
             "gif"))
     parser.add_argument(
+        "-m",
+        "--mode",
+        help="Image mode",
+        type=str,
+        choices=(
+            "1",
+            "L",
+            "P",
+            "RGB",
+            "RGBA"))
+    parser.add_argument(
         "-v",
         "--verbose",
         action="store_true",
@@ -45,8 +56,16 @@ def run_fif():
         else:
             print("Unsupported container MIME type!")
     if args.encode == "gif":
-        gif_codec.encode(args.input, verbose=args.verbose)
+        if args.mode != None:
+            gif_codec.encode(args.input, mode=args.mode, verbose=args.verbose)
+        else:
+            gif_codec.encode(args.input, verbose=args.verbose)
+                
     elif args.encode == "png":
-        png_codec.encode(args.input, verbose=args.verbose)
+        if args.mode != None:
+            png_codec.encode(args.input, mode=args.mode, verbose=args.verbose)
+        else:
+            png_codec.encode(args.input, verbose=args.verbose)
+            
     elif args.encode == "wav":
         wav_codec.encode(args.input, verbose=args.verbose)
