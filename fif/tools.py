@@ -27,7 +27,8 @@ def calc_size(INPUT_BYTES_LENGHT, mode):
     returns tuple: (output_size, extra_bytes_lenght)
     """
     if str(mode) == "1":
-        pass
+        print("1 coming soon")
+        sys.exit()
     if mode == "L":
         w = ceil(sqrt(INPUT_BYTES_LENGHT))
         output_size = (w, w)
@@ -41,7 +42,8 @@ def calc_size(INPUT_BYTES_LENGHT, mode):
         extra_bytes_lenght = OUTPUT_BYTES_LENGHT - INPUT_BYTES_LENGHT
         return (output_size, extra_bytes_lenght)
     if mode == "RGBA":
-        pass
+        print("rgba coming soon")
+        sys.exit()
 
 
 
