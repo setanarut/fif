@@ -4,7 +4,7 @@ FIF is a command line tool for embedding any file into GIF, PNG and WAV files an
 
 ## installation
 
-`pip3 install git+https://github.com/hazarek/fif.git`
+`pip3 install fif`
 
 ## usage
 
@@ -14,7 +14,7 @@ test.mp3 file as grayscale GIF animation
 fif --encode gif test.mp3
 # saved file -> test.gif
 ```
-![dogmalar](./test.gif)
+![test_gif](./test.gif)
 
 Extract test.mp3 from GIF container
 
