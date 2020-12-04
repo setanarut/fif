@@ -24,14 +24,14 @@ fif test.gif
 ```
 
 ```shell
-usage: fif [-h] [-e {png,wav,gif}] [-v] input
-
 positional arguments:
-  input                 input file path
+  input                 Input file path
 
 optional arguments:
   -h, --help            show this help message and exit
   -e {png,wav,gif}, --encode {png,wav,gif}
                         encode file
-  -v, --verbose         increase output verbosity
+  -m {1,L,P,RGB,RGBA}, --mode {1,L,P,RGB,RGBA}
+                        Image mode
+  -v, --verbose         Increase output verbosity
   ```

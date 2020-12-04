@@ -1,9 +1,18 @@
 from setuptools import setup, find_namespace_packages
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+    
 setup(
     name="fif",
     version="1.3.0.rc",
+    
     install_requires=['Pillow>=8.0.0','filetype>=1.0.7'],
+    author="Hazar",
+    description="A command line tool for embedding any file into PNG, GIF, WAV file formats and decoding back.",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/hazarek/fif",
     python_requires='>=3',
     packages=find_namespace_packages(),
     classifiers=[

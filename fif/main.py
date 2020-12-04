@@ -10,7 +10,7 @@ from fif.tools import *
 
 
 def getargs():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="FIF is a command line tool for embedding any file into GIF, PNG and WAV files and decoding back.")
     parser.add_argument(
         "-e",
         "--encode",
