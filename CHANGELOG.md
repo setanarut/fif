@@ -1,6 +1,6 @@
 # Changelog
 
-### [1.3.0] - 2020-12-03
+### [1.3.1] - 2020-12-03
 -  **Added:** Encoding and decoding PNG (RGB Mode)
 -  **Added:** Images modes optional argument. `[-m --mode {1, L, P, RGB, RGBA}]`. Current available modes;
     - png: {L, RGB} / "RGB" is the default

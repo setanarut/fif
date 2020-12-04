@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     
 setup(
     name="fif",
-    version="1.3.0",
+    version="1.3.1",
     install_requires=['Pillow>=8.0.0','filetype>=1.0.7'],
     author="Hazar",
     description="A command line tool for embedding any file into PNG, GIF, WAV file formats and decoding back.",
