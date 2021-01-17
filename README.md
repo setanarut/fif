@@ -8,7 +8,7 @@ FIF is a command line tool for embedding any file into GIF, PNG and WAV files an
 
 ## usage
 
-test.mp3 file as grayscale GIF animation
+dogmalar.mp3 file as grayscale GIF animation
 
 ```shell
 fif --encode gif test.mp3
@@ -16,11 +16,11 @@ fif --encode gif test.mp3
 ```
 ![test_gif](./test.gif)
 
-Extract test.mp3 from GIF container
+Extract dogmalar.mp3 from GIF container
 
 ```shell
 fif test.gif
-# saved file -> test.mp3
+# saved file -> dogmalar.mp3
 ```
 
 ```shell
