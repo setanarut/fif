@@ -12,11 +12,11 @@ dogmalar.mp3 file as grayscale GIF animation
 
 ```shell
 fif --encode gif dogmalar.mp3
-# saved file -> test.gif
+# saved file -> dogmalar.gif
 ```
 ![dogmalar](./dogmalar.gif)
 
-Extract dogmalar.mp3 from GIF container
+Extract `dogmalar.mp3` from GIF container
 
 ```shell
 fif dogmalar.gif
