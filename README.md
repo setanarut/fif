@@ -11,15 +11,15 @@ FIF is a command line tool for embedding any file into GIF, PNG and WAV files an
 dogmalar.mp3 file as grayscale GIF animation
 
 ```shell
-fif --encode gif test.mp3
+fif --encode gif dogmalar.mp3
 # saved file -> test.gif
 ```
-![test_gif](./test.gif)
+![dogmalar](./dogmalar.gif)
 
 Extract dogmalar.mp3 from GIF container
 
 ```shell
-fif test.gif
+fif dogmalar.gif
 # saved file -> dogmalar.mp3
 ```
 
