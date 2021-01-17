@@ -2,11 +2,11 @@
 
 FIF is a command line tool for embedding any file into GIF, PNG and WAV files and decoding back.
 
-## installation
+## Installation
 
 `pip3 install fif`
 
-## usage
+## Usage
 
 dogmalar.mp3 file as grayscale GIF animation
 
