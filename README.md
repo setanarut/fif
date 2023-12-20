@@ -4,7 +4,9 @@ FIF is a command line tool for embedding any file into GIF, PNG and WAV files an
 
 ## Installation
 
-`pip3 install fif`
+```shell
+pip3 install fif
+```
 
 ## Usage
 
